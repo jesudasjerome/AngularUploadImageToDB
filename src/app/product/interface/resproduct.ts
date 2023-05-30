@@ -1,6 +1,6 @@
 import { FileHandle } from "./file-handle";
 
-export interface Product {
+export interface Resproduct {
     sku: string ;
     name: string ;
     description: string;

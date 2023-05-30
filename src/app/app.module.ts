@@ -8,16 +8,27 @@ import { HeaderComponent } from './header/header/header.component';
 import { HomeComponent } from './home/home/home.component';
 import { ProductComponent } from './product/components/product.component';
 import {MatGridListModule} from '@angular/material/grid-list';
-import {MatFormFieldModule} from '@angular/material/form-field'; 
+import {MatFormFieldModule} from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DragDirective } from './directive/drag.directive';
+import {MatTableModule} from '@angular/material/table';
+import { ListProductsComponent } from './product/list-products/list-products.component';
+import {MatButtonModule} from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { ListProductImagesComponent } from './product/list-product-images/list-product-images.component';
+import {MatDialogModule} from '@angular/material/dialog';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     HomeComponent,
-    ProductComponent
+    ProductComponent,
+    DragDirective,
+    ListProductsComponent,
+    ListProductImagesComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +37,12 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatGridListModule,
     MatFormFieldModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatGridListModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

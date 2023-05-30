@@ -21,6 +21,7 @@ export class ProductComponent implements OnInit {
     unitPrice: '',
     active: false,
     unitsInStock: 0,
+    imageData:[],
     productImages: []
   }
 
@@ -38,6 +39,7 @@ export class ProductComponent implements OnInit {
       unitPrice: ['599'],
       active: ['true'],
       unitsInStock: ['1200'],
+      imageData:[''],
       productImage:['']
 
     });
@@ -49,6 +51,7 @@ export class ProductComponent implements OnInit {
       this.product.unitPrice = this.productForm.value.unitPrice!.toString();
       this.product.active = true;
       this.product.unitsInStock = Number (this.productForm.value.unitsInStock!.toString()) ;
+
 
 
     }
@@ -129,6 +132,14 @@ export class ProductComponent implements OnInit {
     }
     // console.log(this.product);
 
+  }
+
+  fileDropped(fileHandle:FileHandle){
+    this.product.productImages.push(fileHandle);
+  }
+
+  removeImages(i:number){
+    this.product.productImages.splice(i,1);
   }
 
 }

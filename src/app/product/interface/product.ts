@@ -7,6 +7,6 @@ export interface Product {
     unitPrice: string ;
     active: boolean;
     unitsInStock: number;
-    imageData:[]
-    productImages: FileHandle[]
+    imageData:FileHandle[]
+ //   productImages: FileHandle[]
 }

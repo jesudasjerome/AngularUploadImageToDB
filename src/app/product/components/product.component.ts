@@ -22,7 +22,7 @@ export class ProductComponent implements OnInit {
     active: false,
     unitsInStock: 0,
     imageData:[],
-    productImages: []
+  //  productImages: []
   }
 
  // file: any;
@@ -39,8 +39,8 @@ export class ProductComponent implements OnInit {
       unitPrice: ['599'],
       active: ['true'],
       unitsInStock: ['1200'],
-      imageData:[''],
-      productImage:['']
+      imageData:['']
+      // productImage:['']
 
     });
 
@@ -96,15 +96,25 @@ export class ProductComponent implements OnInit {
       new Blob([JSON.stringify(this.product)], { type: 'application/json' })
     );
 
-    for (var i = 0; i < product.productImages.length; i++) {
-      console.log(product.productImages[i].file)
-      console.log(product.productImages[i].file.name)
+    for (var i = 0; i < product.imageData.length; i++) {
+      console.log(product.imageData[i].file)
+      console.log(product.imageData[i].file.name)
       formData.append(
         'imageFile',
-         product.productImages[i].file,
-         product.productImages[i].file.name
+         product.imageData[i].file,
+         product.imageData[i].file.name
       );
     }
+
+    // for (var i = 0; i < product.productImages.length; i++) {
+    //   console.log(product.productImages[i].file)
+    //   console.log(product.productImages[i].file.name)
+    //   formData.append(
+    //     'imageFile',
+    //      product.productImages[i].file,
+    //      product.productImages[i].file.name
+    //   );
+    // }
 
     return formData;
 
@@ -114,7 +124,7 @@ export class ProductComponent implements OnInit {
   onFileSelected(event: any) {
 
     // this.product = this.productForm.value;
-    console.log(event);
+  //  console.log(event);
     // console.log(event);
 
     if (event.target.files) {
@@ -127,19 +137,19 @@ export class ProductComponent implements OnInit {
           window.URL.createObjectURL(file)
         )
       }
-      this.product.productImages.push(filehandle);
-      console.log(this.product.productImages);
+      this.product.imageData.push(filehandle);
+      //console.log(this.product.imageData);
     }
     // console.log(this.product);
 
   }
 
   fileDropped(fileHandle:FileHandle){
-    this.product.productImages.push(fileHandle);
+    this.product.imageData.push(fileHandle);
   }
 
   removeImages(i:number){
-    this.product.productImages.splice(i,1);
+    this.product.imageData.splice(i,1);
   }
 
 }

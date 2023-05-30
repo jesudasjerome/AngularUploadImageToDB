@@ -41,7 +41,6 @@ export class ListProductsComponent implements OnInit {
       .subscribe(
         (response: Product[]) => {
           this.products = response;
-          console.log(this.products);
         }, (error: HttpErrorResponse) => {
           console.log(error);
         }
@@ -51,7 +50,7 @@ export class ListProductsComponent implements OnInit {
 
   deleteProduct(id: number) {
     this.productService.deleteProduct(id).subscribe(
-      (response) => {
+      (response:any) => {
         this.getAllProducts();
       }, (error: HttpErrorResponse) => {
         console.log(error);
@@ -63,7 +62,7 @@ export class ListProductsComponent implements OnInit {
     console.log(product);
     this.imagesDialog.open(ListProductImagesComponent, {
       data: {
-        images: product.productImages
+        images: product.imageData
       },
       height: '500px',
       width: '800px'

@@ -30,7 +30,7 @@ export class ImageProcessingServiceService {
       poductImageToFileHandle.push(fileHandle);
     }
 
-    product.productImages = poductImageToFileHandle;
+    product.imageData = poductImageToFileHandle;
 
     return product;
   }

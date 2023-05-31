@@ -4,6 +4,7 @@ import { ProductService } from '../services/product.service';
 import { Product } from '../interface/product';
 import { FileHandle } from '../interface/file-handle';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class ProductComponent implements OnInit {
     unitPrice: '',
     active: false,
     unitsInStock: 0,
-    imageData:[],
+    imageData:[]
   //  productImages: []
   }
 
@@ -29,34 +30,42 @@ export class ProductComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private productSerive: ProductService,
-    private sanitizer: DomSanitizer) { }
+    private sanitizer: DomSanitizer,
+    private activateRoute: ActivatedRoute) { }
 
 
     productForm = this.formBuilder.group({
-      sku: ['phone12093'],
-      name: ['iPhone 12'],
-      description: ['iPhone 12 '],
-      unitPrice: ['599'],
-      active: ['true'],
-      unitsInStock: ['1200'],
+      sku: [''],
+      name: [''],
+      description: [''],
+      unitPrice: [''],
+      active: [''],
+      unitsInStock: [''],
       imageData:['']
       // productImage:['']
 
     });
 
-    updateProduct(){
-      this.product.sku = this.productForm.value.sku!.toString();
-      this.product.name = this.productForm.value.name!.toString();
-      this.product.description = this.productForm.value.description!.toString();
-      this.product.unitPrice = this.productForm.value.unitPrice!.toString();
-      this.product.active = true;
-      this.product.unitsInStock = Number (this.productForm.value.unitsInStock!.toString()) ;
+    // productForm = this.formBuilder.group({
+    //   sku: ['phone12093'],
+    //   name: ['iPhone 12'],
+    //   description: ['iPhone 12 '],
+    //   unitPrice: ['599'],
+    //   active: ['true'],
+    //   unitsInStock: ['1200'],
+    //   imageData:['']
+    //   // productImage:['']
+
+    // });
 
 
 
-    }
 
   ngOnInit(): void {
+
+    this.product = this.activateRoute.snapshot.data['product'];
+   // console.log(this.product);
+    this.updateProductFrom(this.product);
   }
 
 
@@ -70,9 +79,7 @@ export class ProductComponent implements OnInit {
     //this.product!.productImages = this.file;
     const productFormData = this.prepareFormData(this.product)
 
-    console.log(productFormData)
-
-
+    //console.log(this.product)
 
     this.productSerive.addNewProduct(productFormData).subscribe(
       (response: Product) => {
@@ -81,14 +88,41 @@ export class ProductComponent implements OnInit {
       (error: any) => {
         console.log(error);
       }
+
+
     );
 
-
+    this.productForm.reset();
+    this.product.imageData = []
 
   }
 
+  updateProduct(){
+    this.product.sku = this.productForm.value.sku!.toString();
+    this.product.name = this.productForm.value.name!.toString();
+    this.product.description = this.productForm.value.description!.toString();
+    this.product.unitPrice = this.productForm.value.unitPrice!.toString();
+    this.product.active = true;
+    this.product.unitsInStock = Number (this.productForm.value.unitsInStock!.toString()) ;
+
+  }
+
+  updateProductFrom(product: Product){
+    this.productForm.patchValue({
+
+    sku : this.product.sku ,
+    name:  this.product.name,
+    description : this.product.description,
+    unitPrice  : this.product.unitPrice ,
+    active : '1',
+    unitsInStock  : this.product.unitsInStock.toString()
+
+
+   })
+}
+
   prepareFormData(product: Product): FormData {
-    console.log(product);
+  //  console.log(product);
     const formData = new FormData();
 
     formData.append(
@@ -97,8 +131,8 @@ export class ProductComponent implements OnInit {
     );
 
     for (var i = 0; i < product.imageData.length; i++) {
-      console.log(product.imageData[i].file)
-      console.log(product.imageData[i].file.name)
+   //   console.log(product.imageData[i].file)
+     // console.log(product.imageData[i].file.name)
       formData.append(
         'imageFile',
          product.imageData[i].file,
@@ -106,15 +140,7 @@ export class ProductComponent implements OnInit {
       );
     }
 
-    // for (var i = 0; i < product.productImages.length; i++) {
-    //   console.log(product.productImages[i].file)
-    //   console.log(product.productImages[i].file.name)
-    //   formData.append(
-    //     'imageFile',
-    //      product.productImages[i].file,
-    //      product.productImages[i].file.name
-    //   );
-    // }
+
 
     return formData;
 

@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ListProductImagesComponent } from '../list-product-images/list-product-images.component';
 import { ImageProcessingServiceService } from '../services/image-processing-service.service';
 import { map } from 'rxjs';
-import { Resproduct } from '../interface/resproduct';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-products',
@@ -21,7 +21,9 @@ export class ListProductsComponent implements OnInit {
     'Description', 'Unit Price', 'Units In Stock', 'Active', 'Image', 'Edit', 'Delete'];
 
   constructor(private productService: ProductService,
-    public imagesDialog: MatDialog, private imageProssesingService: ImageProcessingServiceService) { }
+    public imagesDialog: MatDialog,
+    private imageProssesingService: ImageProcessingServiceService,
+    private router: Router) { }
 
 
   ngOnInit(): void {
@@ -57,9 +59,13 @@ export class ListProductsComponent implements OnInit {
       }
     );
   }
+  editProduct(id:Number){
+  //  console.log(id);
+    this.router.navigate(['Product', {productId:id}])
+  }
 
   showImages(product: Product) {
-    console.log(product);
+    //console.log(product);
     this.imagesDialog.open(ListProductImagesComponent, {
       data: {
         images: product.imageData

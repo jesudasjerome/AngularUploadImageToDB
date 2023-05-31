@@ -14,7 +14,7 @@ export class ListProductImagesComponent implements OnInit{
 
 
   ngOnInit(): void {
-   this.receiveImages();
+ //  this.receiveImages();
   }
 
   receiveImages(){

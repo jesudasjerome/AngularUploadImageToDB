@@ -25,7 +25,7 @@ export class ProductComponent implements OnInit {
     unitPrice: '',
     active: false,
     unitsInStock: 0,
-    subCategories: [],
+    subCategory: [],
     brand: [],
     imageData: []
     //  productImages: []
@@ -151,8 +151,8 @@ export class ProductComponent implements OnInit {
     this.product.unitPrice = this.productForm.value.unitPrice!.toString();
     this.product.active = true;
     this.product.unitsInStock = Number(this.productForm.value.unitsInStock)  ;
-    this.product.subCategories['0'] =  this.productForm.value.subCategory! ;
-    this.product.brand   =  JSON.parse(JSON.stringify(this.productForm.value.brand!))
+    this.product.subCategory  =  JSON.parse(JSON.stringify(this.productForm.value.subCategory!)) ;
+    this.product.brand   =  JSON.parse(JSON.stringify(this.productForm.value.brand!));
   }
 
   updateProductFrom(product: Product){
@@ -164,7 +164,7 @@ export class ProductComponent implements OnInit {
     unitPrice  :  this.product.unitPrice?.toString() ,
     active : '1',
     unitsInStock  :  this.product.unitsInStock?.toLocaleString(),
-    subCategory: this.product.subCategories.toString(),
+    subCategory: this.product.subCategory.toString(),
     brand: this.product.brand.toString()
    })
 }

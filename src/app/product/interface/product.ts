@@ -7,6 +7,8 @@ export interface Product {
     unitPrice: string ;
     active: boolean;
     unitsInStock: number;
+    subCategories: string [];
+    brand: string[];
     imageData:FileHandle[]
  //   productImages: FileHandle[]
 }

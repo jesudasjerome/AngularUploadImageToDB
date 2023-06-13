@@ -1,0 +1,64 @@
+<!-- <div class="container-fluid container mt-5">
+  <div class="row">
+    <h1>Product Details</h1>
+    <hr>
+  <div class="col-6">
+      <form [formGroup]="productFromGroup" (ngSubmit)="onSubmit()">
+        <div formGroupName = "product">
+          <div>
+
+            <div class="form-group">
+              <label>Product Name:</label>
+              <input type="text" formControlName="name">
+            </div>
+
+          </div>
+          <div class="from-group">
+            <select formControlName="subCategory" (change)="getSubCategory('product.subCategory')">
+              <option *ngFor="let category of subCategories" [ngValue]="category">
+                {{ category.name }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group mt-3">
+            <select formControlName="brand" (change)="getBrand('brandGroup')">
+              <option *ngFor="let brand of brands" [ngValue]="brand">
+                {{ brand.name}}
+              </option>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="form-group">
+          <input type="submit" value="Submit">
+        </div>
+      </form>
+    </div>
+   <div class="col-6">
+      <div class="form-group">
+        <div class="file-dropzone" appDrag (files)="fileDropped($event)" (click)="selectFile.click()">
+          <div class="text-wrapper">
+            --!-- <a (click)="selectFile.click()">   File</a>--
+            Drog and drop your file or
+            Brose
+          </div>
+        </div>
+        !-- <label for="quantity">Upload Images:</label> --
+        <input type="file" #selectFile multiple value="select" style="display: none;" (change)="onFileSelected($event)">
+      </div>
+      <div class="mt-5">
+        <div class="row">
+          <mat-grid-list cols="4" rowHeight="1:1">
+            <mat-grid-tile *ngFor="let file of product.imageData; let i = index;">
+              <div style="position: relative;">
+                <span class="btn-remove-img" (click)="removeImages(i)">X</span>
+                <img [src]="file.url" width="100px" height="100px">
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

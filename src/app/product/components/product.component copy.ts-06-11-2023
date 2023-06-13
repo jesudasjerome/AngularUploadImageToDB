@@ -7,7 +7,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Category } from '../common/category';
 import { Brand } from '../common/brand';
-import { Subcategory } from '../common/subcategory';
 
 
 @Component({
@@ -24,15 +23,15 @@ export class ProductComponent implements OnInit {
     description: '',
     unitPrice: '',
     active: false,
-    unitsInStock: 0,
-    subCategories: [],
-    brand: [],
+    unitsInStock: '',
+   subCategory: [],
+   // brand: [],
     imageData: []
     //  productImages: []
 
   }
 
-  subCategories: Subcategory[] = [];
+  subCategories: Category[] = [];
   brands: Brand[] = [];
  // file: any;
 
@@ -49,9 +48,9 @@ export class ProductComponent implements OnInit {
       unitPrice: [''],
       active: [''],
       unitsInStock: [''],
-      subCategory:[''],
-      brand:[''],
-      imageData:['']
+      subCategory:['']
+      //brand:[''],
+      //imageData:['']
       // productImage:['']
 
     });
@@ -81,9 +80,9 @@ export class ProductComponent implements OnInit {
       // console.log(this.product);
       this.updateProductFrom(this.product);
 
-     this.getSubCategories()
+    this.getSubCategories()
 
-     this.getBrands();
+    this.getBrands();
 
 
 
@@ -105,7 +104,7 @@ export class ProductComponent implements OnInit {
     // console.log(productFormData)
 
     this.productSerive.addNewProduct(productFormData).subscribe(
-      (response: any) => {
+      (response: Product) => {
         console.log(response);
       },
       (error: any) => {
@@ -126,8 +125,8 @@ export class ProductComponent implements OnInit {
     this.productSerive.getAllSubCategories().subscribe(
       data =>{
         console.log(data);
-       this.subCategories = data;
-        this.productForm.controls.subCategory.setValue("data[0].categoryName");
+        this.subCategories = data;
+       // this.productForm.controls.subCategory.setValue("data[0].categoryName");
       }
     );
   }
@@ -139,7 +138,7 @@ export class ProductComponent implements OnInit {
         data =>{
           console.log(data);
           this.brands = data;
-          this.productForm.controls.brand.setValue("data[0].brandName");
+        //  this.productForm.controls.brand.setValue("data[0].brandName");
         }
       );
     }
@@ -150,9 +149,9 @@ export class ProductComponent implements OnInit {
     this.product.description = this.productForm.value.description!.toString();
     this.product.unitPrice = this.productForm.value.unitPrice!.toString();
     this.product.active = true;
-    this.product.unitsInStock = Number(this.productForm.value.unitsInStock)  ;
-    this.product.subCategories['0'] =  this.productForm.value.subCategory! ;
-    this.product.brand   =  JSON.parse(JSON.stringify(this.productForm.value.brand!))
+    this.product.unitsInStock = this.productForm.value.unitsInStock!.toString() ;
+    this.product.subCategory['0'] = JSON.parse(JSON.stringify(this.productForm.value.subCategory!));
+    //this.product.brand['0']  =  JSON.parse(JSON.stringify(this.productForm.value.brand!))
   }
 
   updateProductFrom(product: Product){
@@ -161,11 +160,11 @@ export class ProductComponent implements OnInit {
     sku : this.product.sku ,
     name:  this.product.name,
     description : this.product.description,
-    unitPrice  :  this.product.unitPrice?.toString() ,
+    unitPrice  : this.product.unitPrice ,
     active : '1',
-    unitsInStock  :  this.product.unitsInStock?.toLocaleString(),
-    subCategory: this.product.subCategories.toString(),
-    brand: this.product.brand.toString()
+    unitsInStock  : this.product.unitsInStock.toString(),
+    subCategory: this.product.subCategory.toString(),
+    //brand: this.product.brand.toString()
    })
 }
 
@@ -225,15 +224,15 @@ export class ProductComponent implements OnInit {
   removeImages(i:number){
     this.product.imageData.splice(i,1);
   }
-  getSubCategory(fromControl:string){
+  onChangeSubCategory(fromControl:FormControl){
   //  this.product.subCategory = fromControl.value['id'];
   // console.log(this.productForm?.controls?.brand.value(0))
-   //console.log(fromControl.value['id'])
+   console.log(fromControl.value['id'])
    }
-   getBrand(fromControl:string){
+  onChangeBrand(fromControl:FormControl){
  //  this.product.brand = fromControl.value['id'];
  // console.log(this.productForm?.controls?.brand.value(0))
-    //console.log(fromControl.value)
+    console.log(fromControl.value)
   }
 
 }

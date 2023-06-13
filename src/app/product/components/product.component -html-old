@@ -26,21 +26,6 @@
             <input type="number" id="price" formControlName="unitsInStock" step="0.01" min="0">
           </div>
         </div>
-        <div class="from-group">
-          <select formControlName="subCategory" (change)="getSubCategory('productForm.subCategory.value')">
-            <option *ngFor="let category of subCategories" [ngValue]="category">
-              {{ category.categoryName }}
-            </option>
-          </select>
-        </div>
-        <div class="form-group mt-3">
-          <select formControlName="brand" (change)="getBrand('productForm.brand.value')">
-            <option *ngFor="let brand of brands" [ngValue]="brand">
-              {{ brand.brandName}}
-            </option>
-          </select>
-        </div>
-
         <div class="form-group">
           <input type="submit" value="Submit">
         </div>
@@ -48,8 +33,7 @@
     </div>
     <div class="col-6">
       <div class="form-group">
-        <div class="file-dropzone" appDrag (files)="fileDropped($event)"
-        (click)="selectFile.click()">
+        <div class="file-dropzone" appDrag (files)="fileDropped($event)" (click)="selectFile.click()">
           <div class="text-wrapper">
             <!-- <a (click)="selectFile.click()">   File</a>-->
             Drog and drop your file or
@@ -69,6 +53,9 @@
               </div>
             </mat-grid-tile>
           </mat-grid-list>
+          <div class="text-center">
+            <button class="btn btn-info btn-test" (click)="onTest()">Test</button>
+          </div>
         </div>
       </div>
     </div>

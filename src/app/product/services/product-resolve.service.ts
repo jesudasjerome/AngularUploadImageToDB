@@ -38,6 +38,8 @@ export class ProductResolveService implements Resolve<Product>   {
       unitPrice: '',
       active: false,
       unitsInStock: 0,
+      subCategories: [],
+      brand: [],
       imageData:[],
     }
   }

@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ProductService } from '../services/product.service';
 import { Product } from '../interface/product';
 import { FileHandle } from '../interface/file-handle';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { Category } from '../common/category';
-import { Brand } from '../common/brand';
-import { Subcategory } from '../common/subcategory';
 
 
 @Component({
@@ -19,21 +16,16 @@ export class ProductComponent implements OnInit {
 
 
   product: Product = {
-    sku: '',
+    sku : '',
     name: '',
     description: '',
     unitPrice: '',
     active: false,
     unitsInStock: 0,
-    subCategories: [],
-    brand: [],
-    imageData: []
-    //  productImages: []
-
+    imageData:[]
+  //  productImages: []
   }
 
-  subCategories: Subcategory[] = [];
-  brands: Brand[] = [];
  // file: any;
 
   constructor(private formBuilder: FormBuilder,
@@ -42,52 +34,38 @@ export class ProductComponent implements OnInit {
     private activateRoute: ActivatedRoute) { }
 
 
-    productForm = this.formBuilder.group({
-      sku: [''],
-      name: [''],
-      description: [''],
-      unitPrice: [''],
-      active: [''],
-      unitsInStock: [''],
-      subCategory:[''],
-      brand:[''],
-      imageData:['']
-      // productImage:['']
-
-    });
-
     // productForm = this.formBuilder.group({
-    //   sku: ['phone12093'],
-    //   name: ['iPhone 12'],
-    //   description: ['iPhone 12 '],
-    //   unitPrice: ['599'],
-    //   active: ['true'],
-    //   unitsInStock: ['1200'],
+    //   sku: [''],
+    //   name: [''],
+    //   description: [''],
+    //   unitPrice: [''],
+    //   active: [''],
+    //   unitsInStock: [''],
     //   imageData:['']
     //   // productImage:['']
 
     // });
 
+    productForm = this.formBuilder.group({
+      sku: ['phone12093'],
+      name: ['iPhone 12'],
+      description: ['iPhone 12 '],
+      unitPrice: ['599'],
+      active: ['true'],
+      unitsInStock: ['1200'],
+      imageData:['']
+      // productImage:['']
+
+    });
+
 
 
 
   ngOnInit(): void {
-    //this.getSubCategories();
-    //console.log(this.categories);
-    //Populate the Subcategory Dropdown
 
-    this.product = this.activateRoute.snapshot.data['product'];
-
-      // console.log(this.product);
-      this.updateProductFrom(this.product);
-
-     this.getSubCategories()
-
-     this.getBrands();
-
-
-
-
+   // this.product = this.activateRoute.snapshot.data['product'];
+   // console.log(this.product);
+    //this.updateProductFrom(this.product);
   }
 
 
@@ -98,14 +76,13 @@ export class ProductComponent implements OnInit {
     this.updateProduct();
 
    // this.product = this.productForm.value;
-     //this.product!.productImages = this.file;
+    //this.product!.productImages = this.file;
     const productFormData = this.prepareFormData(this.product)
 
-    console.log(this.product)
-    // console.log(productFormData)
+    //console.log(this.product)
 
     this.productSerive.addNewProduct(productFormData).subscribe(
-      (response: any) => {
+      (response: Product) => {
         console.log(response);
       },
       (error: any) => {
@@ -115,34 +92,10 @@ export class ProductComponent implements OnInit {
 
     );
 
-    //this.productForm.reset();
+    this.productForm.reset();
     this.product.imageData = []
 
   }
-
-  //Get all the Subcategory  and populate the dropdown
-
-  getSubCategories(){
-    this.productSerive.getAllSubCategories().subscribe(
-      data =>{
-        console.log(data);
-       this.subCategories = data;
-        this.productForm.controls.subCategory.setValue("data[0].categoryName");
-      }
-    );
-  }
-
-    //Get all the Brand  and populate the dropdown
-
-    getBrands(){
-      this.productSerive.getAllBrands().subscribe(
-        data =>{
-          console.log(data);
-          this.brands = data;
-          this.productForm.controls.brand.setValue("data[0].brandName");
-        }
-      );
-    }
 
   updateProduct(){
     this.product.sku = this.productForm.value.sku!.toString();
@@ -150,9 +103,8 @@ export class ProductComponent implements OnInit {
     this.product.description = this.productForm.value.description!.toString();
     this.product.unitPrice = this.productForm.value.unitPrice!.toString();
     this.product.active = true;
-    this.product.unitsInStock = Number(this.productForm.value.unitsInStock)  ;
-    this.product.subCategories['0'] =  this.productForm.value.subCategory! ;
-    this.product.brand   =  JSON.parse(JSON.stringify(this.productForm.value.brand!))
+    this.product.unitsInStock = Number (this.productForm.value.unitsInStock!.toString()) ;
+
   }
 
   updateProductFrom(product: Product){
@@ -161,11 +113,11 @@ export class ProductComponent implements OnInit {
     sku : this.product.sku ,
     name:  this.product.name,
     description : this.product.description,
-    unitPrice  :  this.product.unitPrice?.toString() ,
+    unitPrice  : this.product.unitPrice ,
     active : '1',
-    unitsInStock  :  this.product.unitsInStock?.toLocaleString(),
-    subCategory: this.product.subCategories.toString(),
-    brand: this.product.brand.toString()
+    unitsInStock  : this.product.unitsInStock.toString()
+
+
    })
 }
 
@@ -204,7 +156,7 @@ export class ProductComponent implements OnInit {
     if (event.target.files) {
 
       const file = event.target.files[0];
-      console.log(file);
+     // console.log(this.file);
       const filehandle: FileHandle = {
         file: file,
         url: this.sanitizer.bypassSecurityTrustResourceUrl(
@@ -212,7 +164,7 @@ export class ProductComponent implements OnInit {
         )
       }
       this.product.imageData.push(filehandle);
-      console.log(this.product.imageData);
+      //console.log(this.product.imageData);
     }
     // console.log(this.product);
 
@@ -225,15 +177,9 @@ export class ProductComponent implements OnInit {
   removeImages(i:number){
     this.product.imageData.splice(i,1);
   }
-  getSubCategory(fromControl:string){
-  //  this.product.subCategory = fromControl.value['id'];
-  // console.log(this.productForm?.controls?.brand.value(0))
-   //console.log(fromControl.value['id'])
-   }
-   getBrand(fromControl:string){
- //  this.product.brand = fromControl.value['id'];
- // console.log(this.productForm?.controls?.brand.value(0))
-    //console.log(fromControl.value)
-  }
 
+  onTest()
+  {
+    console.log("Hi Bryan")
+  }
 }

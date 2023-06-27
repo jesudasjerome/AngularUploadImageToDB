@@ -5,6 +5,7 @@ import { ProductComponent } from './product/components/product.component';
 import { ListProductsComponent } from './product/list-products/list-products.component';
 import { Product } from './product/interface/product';
 import { ProductResolveService } from './product/services/product-resolve.service';
+import { AddNewProductComponent } from './product/components/add-new-product/add-new-product.component';
 
 const routes: Routes = [
   {path:'',  component: HomeComponent},
@@ -13,6 +14,11 @@ const routes: Routes = [
   resolve: {
     product:ProductResolveService
   }
+},
+{path:'AddProduct',  component: AddNewProductComponent,
+resolve: {
+  product:ProductResolveService
+}
 },
   {path:'ProductList',  component: ListProductsComponent}
 ];

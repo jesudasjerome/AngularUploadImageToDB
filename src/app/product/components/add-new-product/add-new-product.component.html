@@ -44,7 +44,7 @@
                 <div class="form-group">
                   <label>Category</label>
                   <div class="input-group expiration-date" aria-label="category" aria-describedby="category">
-                    <select class="form-control" formControlName="subCategory">
+                    <select class="form-control" formControlName="subCategory"  onchange ="loadSubCategories()">
                       <option *ngFor="let category of subCategories" [ngValue]="category">
                         {{category.categoryName}}
                       </option>
@@ -53,8 +53,8 @@
                 </div>
                 <div class="form-group">
                   <label>Brand</label>
-                  <div class="input-group expiration-date" aria-label="category" aria-describedby="category">
-                    <select class="form-control" formControlName="brand">
+                  <div class="input-group expiration-date" aria-label="brand" aria-describedby="brand">
+                    <select class="form-control" formControlName="brand"  >
                       <option *ngFor="let brand of brands" [ngValue]="brand">
                         {{brand.brandName}}
                       </option>

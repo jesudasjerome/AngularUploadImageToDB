@@ -1,0 +1,33 @@
+<div class="container-fluid bg-danger">
+  <div class="row flex-nowrap">
+       <!-- **********************Sidebar Start****************************************** -->
+    <div class="bg-dark col-auto col-md-2 min-vh-100">
+      <div class="bg-dark">
+        <a class="d-flex text-decoration-none align-items-center">
+          <i class="fs-5 fa fa-gauge"></i>
+          <span class="fs-4 d-none d-sm-inline">SideMenu</span>
+        </a>
+        <nav class="nav nav-pills flex-column mt-5">
+          <a class="nav-link text-white " href="#">
+            <i class="fs-5 fa fa-gauge "></i>
+            <span class="fs-4 ms-3 d-none d-sm-inline">Dashboard</span>
+          </a>
+          <a class="nav-link text-white"  routerLinkActive="active-link"  [routerLinkActiveOptions]="{exact:true}"
+          ariaCurrentWhenActive="page" routerLink="ProductList">
+            <i class="fs-5 fab fa-product-hunt"></i>
+            <span class="fs-4 ms-3 d-none d-sm-inline">Products</span>
+          </a>
+          <a class="nav-link text-white" routerLinkActive="active-link"  [routerLinkActiveOptions]="{exact:true}"
+           routerLink="AddProduct">
+            <i class="fa-5 fa  fa-plus "></i>
+            <span class="fs-4 ms-3 d-none d-sm-inline">Add Product</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+    <!-- **********************Sidebar End****************************************** -->
+    <div class=" col-auto col-md-10 min-vh-100">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

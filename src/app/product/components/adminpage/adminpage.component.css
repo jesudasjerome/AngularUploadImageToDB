@@ -1,0 +1,9 @@
+/* .routerLinkActive{
+  background-color: antiquewhite;
+} */
+a:hover{
+  background-color: rgb(61, 59, 59);
+}
+.active-link {
+  background-color: rgb(90, 89, 87); /* Replace with your preferred color */
+}

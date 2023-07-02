@@ -19,6 +19,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { ListProductImagesComponent } from './product/list-product-images/list-product-images.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { AddNewProductComponent } from './product/components/add-new-product/add-new-product.component';
+import { AdminpageComponent } from './product/components/adminpage/adminpage.component';
+import { PageNotFoundComponent } from './product/components/page-not-found/page-not-found.component';
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import { AddNewProductComponent } from './product/components/add-new-product/add
     DragDirective,
     ListProductsComponent,
     ListProductImagesComponent,
-    AddNewProductComponent
+    AddNewProductComponent,
+    AdminpageComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

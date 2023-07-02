@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Product } from '../../interface/product';
 import { Subcategory } from '../../common/subcategory';
@@ -13,7 +13,7 @@ import { FileHandle } from '../../interface/file-handle';
   templateUrl: './add-new-product.component.html',
   styleUrls: ['./add-new-product.component.css']
 })
-export class AddNewProductComponent implements OnInit{
+export class AddNewProductComponent implements OnInit  {
 
   productForm!: FormGroup;
 
@@ -37,6 +37,9 @@ export class AddNewProductComponent implements OnInit{
     private sanitizer: DomSanitizer,
     private activateRoute: ActivatedRoute){}
 
+
+
+
   ngOnInit(): void {
      this.productForm = this.fb.group({
       sku: [''],
@@ -50,22 +53,32 @@ export class AddNewProductComponent implements OnInit{
       imageData:['']
      });
 
+
+
      this.product = this.activateRoute.snapshot.data['product'];
      console.log( !!this.product.sku);
 
        if(!!this.product.sku){
-         this.updateProductFrom(this.product);
-        //  const subCategory =  JSON.parse(JSON.stringify(this.product.subCategory))
-        //  this.subCategories =  subCategory
-        //  const brand =  JSON.parse(JSON.stringify(this.product.brand))
-        //  this.brands = brand
-        //  console.log( brand);
-        //  this.productForm.get('subCategory')?.patchValue(subCategory);
-        //  this.productForm.get('brand')?.setValue(brand);
-       }
-         this.getSubcategories();
-         this.getProductBrands();
 
+         this.updateProductFrom(this.product);
+        const subCategory: Subcategory []  =[];
+        subCategory.push(  JSON.parse(JSON.stringify(this.product.subCategory)));
+        console.log(subCategory)
+         this.subCategories =  subCategory
+         const brand:Brand[] = [];
+         brand.push(JSON.parse(JSON.stringify(this.product.brand)));
+         this.brands =  brand
+          console.log( this.subCategories);
+        //  const value = subCategory[0].categoryName;
+      //  // console.log(this.productForm.get('subCategory')?.value)
+      //  const filteredArray = this.subCategories.filter(element => element.categoryName === value);
+      //  console.log(filteredArray); // Output: [3]
+         this.productForm.get('subCategory')?.patchValue(subCategory[0]);
+          this.productForm.get('brand')?.patchValue(brand[0]);
+       }else{
+        this.getSubcategories();
+        this.getProductBrands();
+       }
   }
 
 
@@ -94,8 +107,9 @@ export class AddNewProductComponent implements OnInit{
   }
 
  private updateProductFrom(product: Product){
-    const subCategory =   JSON.parse(JSON.stringify(this.product.subCategory));
-    const brand =   JSON.parse(JSON.stringify(this.product.brand));
+   //  const subCategory:Subcategory []=   JSON.parse(JSON.stringify(this.product.subCategory));
+     //const brand:Brand [] =   JSON.parse(JSON.stringify(this.product.brand));
+    // console.log(brand[0].brandName)
     this.productForm.patchValue({
 
     sku : this.product.sku ,
@@ -104,12 +118,13 @@ export class AddNewProductComponent implements OnInit{
     unitPrice  :  this.product.unitPrice?.toString() ,
     active : '1',
     unitsInStock  :  this.product.unitsInStock?.toLocaleString(),
-    subCategory: subCategory ,
-    brand: brand['brand']
+    subCategory: JSON.parse(JSON.stringify(this.product.subCategory)) ,
+    brand: JSON.parse(JSON.stringify(this.product.brand))
 
    })
+   //this.productForm.get('subCategory')?.setValue(subCategory[0]);
+ //  console.log("Subcategory:" +   JSON.stringify(this.product.subCategory));
 
-   console.log("Subcategory:" +   JSON.stringify(this.product.subCategory));
 
   }
 
@@ -146,11 +161,16 @@ export class AddNewProductComponent implements OnInit{
     this.productSerive.getAllSubCategories().subscribe(
       data => {
         this.subCategories = data;
-        console.log(data[0])
-        this.productForm.get('subCategory')?.setValue(data[0]);
+        console.log(data)
+       this.productForm.get('subCategory')?.setValue(data[0]);
 
       }
     );
+  }
+
+  public loadSubCategories(){
+   // this.getSubcategories();
+    console.log("load")
   }
 
 
@@ -160,7 +180,7 @@ export class AddNewProductComponent implements OnInit{
     this.productSerive.getAllBrands().subscribe(
       data => {
         this.brands = data;
-        this.productForm.get('brand')?.setValue(data[0]);
+       this.productForm.get('brand')?.setValue(data[0]);
 
       }
     );

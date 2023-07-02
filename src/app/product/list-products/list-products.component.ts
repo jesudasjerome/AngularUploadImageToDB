@@ -61,7 +61,7 @@ export class ListProductsComponent implements OnInit {
   }
   editProduct(id:Number){
   //  console.log(id);
-    this.router.navigate(['Product', {productId:id}])
+    this.router.navigate(['Admin/AddProduct', {productId:id}])
   }
 
   showImages(product: Product) {

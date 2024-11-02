@@ -73,23 +73,36 @@
       <div class="col-6 ">
         <div class="col-row">
           <div class="form-group">
-            <div class="file-dropzone" appDrag (files)="fileDropped($event)" (click)="selectFile.click()">
+
+            <div  class="file-dropzone"   appDrag   (files)="fileDropped($event)"  (click)="selectFile.click()"
+>
+<input #selectFile type="file" style="display: none" multiple (change)="fileDroppedFromInput($event)"  accept="image/*"/>
+</div>
+
+            <!-- <div class="file-dropzone" appDrag (files)="fileDropped($event)" (click)="selectFile.click()">
               <div class="text-wrapper">
-                <!-- <a (click)="selectFile.click()">   File</a>-->
+                !-- <a (click)="selectFile.click()">   File</a>--
                 Drog and drop your file or
                 Brose
               </div>
-            </div>
+            </div> -->
            <!-- <label for="quantity">Upload Images:</label> -->
-            <input type="file" #selectFile multiple value="select" style="display: none;" (change)="onFileSelected($event)">
+            <!-- <input type="file" #selectFile multiple value="select" style="display: none;" (change)="onFileSelected($event)"> -->
           </div>
           <div class="mt-5">
             <div class="row">
               <mat-grid-list cols="4" rowHeight="1:1">
-                <mat-grid-tile *ngFor="let file of product.imageData; let i = index;">
+                <!-- <mat-grid-tile *ngFor="let file of selectedFiles; let i = index;">
                   <div style="position: relative;">
                     <span class="btn-remove-img" (click)="removeImages(i)">X</span>
                     <img [src]="file.url" width="100px" height="100px">
+                  </div>
+                </mat-grid-tile> -->
+
+                <mat-grid-tile *ngFor="let image of imagePreviews; let i = index;">
+                  <div style="position: relative;">
+                    <span class="btn-remove-img" (click)="removeImages(i)">X</span>
+                    <img  [src]="image" alt="Image preview" width="100px" height="100px" />
                   </div>
                 </mat-grid-tile>
               </mat-grid-list>

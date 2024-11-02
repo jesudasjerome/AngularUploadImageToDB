@@ -41,10 +41,20 @@
                       aria-label="Price" aria-describedby="Price">
                   </div>
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label>Category</label>
                   <div class="input-group expiration-date" aria-label="category" aria-describedby="category">
                     <select class="form-control" formControlName="subCategory">
+                      <option *ngFor="let category of subCategories" [ngValue]="category">
+                        {{category.categoryName}}
+                      </option>
+                    </select>
+                  </div>
+                </div> -->
+                <div class="form-group">
+                  <label>Category</label>
+                  <div class="input-group expiration-date" aria-label="category" aria-describedby="category">
+                    <select class="form-control" formControlName="category">
                       <option *ngFor="let category of subCategories" [ngValue]="category">
                         {{category.categoryName}}
                       </option>

@@ -7,7 +7,6 @@ import { ProductService } from '../../services/product.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { FileHandle } from '../../interface/file-handle';
-import { ImageUrlService } from '../../services/image-url.service';
 
 @Component({
   selector: 'app-add-new-product',
@@ -35,16 +34,13 @@ export class AddNewProductComponent implements OnInit  {
   brands: Brand[] = [];
 
   selectedFiles: File[] = [];
-  imageFiles: File[]= [];
   imagePreviews: string [] = []; // Property to store the image preview
   // imagePreview: string | ArrayBuffer | null = null; // Property to store the image preview
 
   constructor(private fb: FormBuilder,
     private productSerive: ProductService,
     private sanitizer: DomSanitizer,
-    private activateRoute: ActivatedRoute,
-    private imageUrlService: ImageUrlService
-  ){}
+    private activateRoute: ActivatedRoute){}
 
 
 
@@ -59,7 +55,6 @@ export class AddNewProductComponent implements OnInit  {
       unitsInStock: [''],
       subCategory:[''],
       brand:[''],
-      images:[],
       imageData:['']
      });
 
@@ -79,39 +74,6 @@ export class AddNewProductComponent implements OnInit  {
          brand.push(JSON.parse(JSON.stringify(this.product.brand)));
          this.brands =  brand
           console.log( this.subCategories);
-          console.log(this.product.images)
-
-          this.product.images.forEach(
-            data=>{
-              const imageUrl = 'http://localhost:8080/images/'+data.imageName;
-              const fileName = data.imageName.toString();
-              console.log('http://localhost:8080/images/'+data.imageName)
-              // this.imagePreviews.push('http://localhost:8080/images/'+data.imageName);
-              this.imageUrlService.downloadImageAsFile('http://localhost:8080/images/'+data.imageName, data.imageName.toString())
-              .then(file => {
-                  console.log('Image downloaded and converted to file:', file);
-                  this.imageFiles.push(file)
-                  console.log(file)
-                  const reader = new FileReader();
-                  reader.onload = () => {
-                    this.imagePreviews.push(reader.result as string); // Push the image preview
-                  };
-                  reader.readAsDataURL(file); // Read the file as Data URL
-                  // You can now use the file object
-                })
-                .catch(error => {
-                  console.error('Error:', error);
-                });
-            }
-          // this.imageUrlService.downloadImageAsFile(imageUrl, fileName)
-          // .then(file => {
-          //   console.log('Image downloaded and converted to file:', file);
-          //   // You can now use the file object
-          // })
-          // .catch(error => {
-          //   console.error('Error:', error);
-          // });
-        );
         //  const value = subCategory[0].categoryName;
       //  // console.log(this.productForm.get('subCategory')?.value)
       //  const filteredArray = this.subCategories.filter(element => element.categoryName === value);
@@ -171,7 +133,7 @@ export class AddNewProductComponent implements OnInit  {
 
   }
 
-  private prepareFormData(product: Product,  imageFiles: File[]): FormData {
+  private prepareFormData(product: Product): FormData {
 
     const formData = new FormData();
 
@@ -180,27 +142,13 @@ export class AddNewProductComponent implements OnInit  {
       new Blob([JSON.stringify(this.product)], { type: 'application/json' })
     );
 
-     // Append images (file[] array)
-     imageFiles.forEach(file => {
-      formData.append('imageFile', file);
-    });
-    // for (const file of  imageFiles) {
-    //   formData.append('imageFile', file);
-    // }
-
-  //         // Assuming selectedFiles is an array of File objects
-  // this.imagePreviews.forEach((file, index) => {
-  //   formData.append(`imageFile${index}`, file);  // Append each file individually
-  // });
-
-    // for (var i = 0; i < product.imageData.length; i++) {
-    //   formData.append(
-    //     'imageFile',
-
-    //     //  product.imageData[i].file,
-    //     //  product.imageData[i].file.name
-    //   );
-    // }
+    for (var i = 0; i < product.imageData.length; i++) {
+      formData.append(
+        'imageFile',
+         product.imageData[i].file,
+         product.imageData[i].file.name
+      );
+    }
 
     return formData;
 
@@ -259,33 +207,59 @@ public fileDroppedFromInput(event: Event) {
 public fileDropped(files: File[]) {
   if (files && files.length > 0) {
     this.selectedFiles = Array.from(files); // Store the files in an array
-    //this.imageFiles = this.selectedFiles;
+
     // Create image previews for each file
     files.forEach(file => {
-      this.imageFiles.push(file)
-      console.log(file)
       const reader = new FileReader();
       reader.onload = () => {
         this.imagePreviews.push(reader.result as string); // Push the image preview
       };
       reader.readAsDataURL(file); // Read the file as Data URL
     });
-
-    console.log("imageFiles:" + this.imageFiles)
-    console.log("imagePreviews:" + this.imagePreviews)
   } else {
     console.error("No files dropped or selected.");
   }
 }
 
+  public onFileSelected(event:Event){
 
+    //
+
+      // const file = event.target.files[0];
+
+      // if (file) {
+      //   console.log(file);
+      //   this.selectedFiles.push(file); // Ensure selectedFiles is defined
+      //    // Create an image preview
+      // const reader = new FileReader();
+      // reader.onload = () => {
+      //   this.imagePreview.push(reader.result as string); // Assign the preview URL to imagePreview
+      // };
+      // reader.readAsDataURL(file); // Read the file and trigger the onload callback
+      // }
+
+  // const input = event.target as HTMLInputElement;
+  // const files = input.files;
+  // if (files && files.length > 0) {
+  //   this.selectedFiles = Array.from(files);
+
+  // //  this.imagePreviews = [];
+  //   Array.from(files).forEach(file => {
+  //     const reader = new FileReader();
+  //     reader.onload = () => {
+  //       this.imagePreviews.push(reader.result as string);
+  //     };
+  //     reader.readAsDataURL(file); // No need for type assertion if typed properly
+  //   });
+  // }
+
+
+
+
+  }
 
   public removeImages(i:number){
-    this.imageFiles.splice(i,1);
     this.imagePreviews.splice(i,1);
-    console.log("imageFiles:" + this.imageFiles)
-    console.log("imagePreviews:" + this.imagePreviews)
-
   }
 
   //********** File Handle End ****** */
@@ -303,10 +277,10 @@ public fileDropped(files: File[]) {
    // this.product = this.productForm.value;
     console.log(this.product);
 
-    const productFormData = this.prepareFormData(this.product, this.imageFiles)
+    const productFormData = this.prepareFormData(this.product)
 
-    console.log(this.product)
-     console.log(productFormData)
+    //console.log(this.product)
+    // console.log(productFormData)
 
     this.productSerive.addNewProduct(productFormData).subscribe(
       (response: any) => {

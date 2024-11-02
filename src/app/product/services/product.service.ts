@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from '../interface/product';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Resproduct } from '../interface/resproduct';
 import { Subcategory } from '../common/subcategory';
 import { Brand } from '../common/brand';
@@ -22,8 +22,10 @@ export class ProductService {
     return this.httpClient.post<Product>(this.baseUrl+"products/addNewProduct", product);
   }
 
-  public getAllProducts(){
-    return this.httpClient.get<Product[]>(this.baseUrl+"products/getAllProducts");
+  public getAllProducts():Observable<Resproduct[]>{
+    return this.httpClient.get<{ content: Resproduct[] }>(this.baseUrl+"products/getAllProducts")
+    .pipe(map(response => response.content));
+    ;
   }
 
   getProductById(id: string) {

@@ -10,6 +10,7 @@ export class Product {
     public unitPrice: string ,
     public active: boolean,
     public unitsInStock: number,
+    public images:[],
     public imageData:[]
   ){}
 

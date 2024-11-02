@@ -16,13 +16,9 @@ export class ProductResolveService implements Resolve<Product>   {
     private imageProcessingService: ImageProcessingServiceService) { }
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Product> {
     const id = route.paramMap.get("productId");
-    //console.log(id);
+    console.log(id);
     if (id){
-    return this.productService.getProductById(id)
-      .pipe(
-        map(p=> this.imageProcessingService.createImages(p)
-         )
-      );
+    return this.productService.getProductById(id);
 
     }
     else{
@@ -40,6 +36,7 @@ export class ProductResolveService implements Resolve<Product>   {
       unitsInStock: 0,
       subCategory: [],
       brand: [],
+      images:[],
       imageData:[],
     }
   }

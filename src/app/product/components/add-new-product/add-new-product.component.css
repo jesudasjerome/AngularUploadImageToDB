@@ -169,6 +169,13 @@ mat-grid-tile{
 /* padding: 2px; */
 }
 
+/* img {
+	margin-top: 10px;
+	border: 1px solid #ccc;
+	padding: 5px;
+	display: block;
+  } */
+
 
 @media (min-width: 576px) {
 	.product-form .title {

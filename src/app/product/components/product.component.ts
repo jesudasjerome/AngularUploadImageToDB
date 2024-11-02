@@ -26,7 +26,8 @@ export class ProductComponent implements OnInit {
     active: false,
     unitsInStock: 0,
     subCategory: [],
-    brand: [],
+    brand:[],
+    images: [],
     imageData: []
     //  productImages: []
 
@@ -51,6 +52,7 @@ export class ProductComponent implements OnInit {
       unitsInStock: [''],
       subCategory:[''],
       brand:[''],
+      images:[''],
       imageData:['']
       // productImage:['']
 

@@ -1,4 +1,5 @@
 import { FileHandle } from "./file-handle";
+import { Image } from "./image";
 
 export interface Product {
     sku: string ;
@@ -9,6 +10,7 @@ export interface Product {
     unitsInStock: number;
     subCategory: string [];
     brand: string[];
-    imageData:FileHandle[]
- //   productImages: FileHandle[]
+    images: Image[];
+    imageData:FileHandle[];
+//    productImages: FileHandle[]
 }
